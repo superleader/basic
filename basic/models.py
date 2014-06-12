@@ -10,3 +10,10 @@ class Person(models.Model):
 
     def __unicode__(self):
         return "%s %s" % (self.name, self.surname)
+
+        
+class Location(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
