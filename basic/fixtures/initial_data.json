@@ -1,0 +1,13 @@
+[
+{
+    "pk": 1, 
+    "model": "basic.person", 
+    "fields": {
+        "date": "1986-01-11", 
+        "bio": "I was born in 1986. I studied  at university in computer science and I graduated university in 2009.\r\nI have worked in web development more that 8 years.", 
+        "surname": "Yurlov", 
+        "name": "Max", 
+        "contacts": "email: maxyurloff@gmail.com    skype: max.yurlov"
+    }
+}
+]
