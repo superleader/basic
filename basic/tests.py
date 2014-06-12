@@ -1,5 +1,6 @@
 from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from basic.models import Person, Location
 
@@ -32,5 +33,10 @@ class BasicTest(TestCase):
 		self.failUnlessEqual(response.status_code, 200)
 		for i in Location.objects.all()[:10]:
 			self.assertContains(response, i)
+			
+	def test_context_proccessor(self):
+		response = self.client.get(reverse('home'))		
+		self.failUnlessEqual(response.status_code, 200)
+		self.assertContains(response, settings.LANGUAGE_CODE)
 
         

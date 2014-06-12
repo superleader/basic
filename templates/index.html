@@ -10,6 +10,8 @@
 		<p>Bio: {{ person.bio }}</p>
 		<p>Contacts: {{ person.contacts }}</p>
 		<hr />
-		<a href="{% url 'first-requests' %}">requests</a>		
+		<a href="{% url 'first-requests' %}">requests</a>
+		<hr />	
+		Checking context_processor: LANGUAGE_CODE - {{ settings.LANGUAGE_CODE }}	
 	</body>
 </html>
