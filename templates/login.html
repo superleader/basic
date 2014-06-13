@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>42 Coffee Cups Test Assignment</title>
+  </head>
+  <body>
+    <div>{{error}}</div>
+    <form method="POST" action="{% url 'login' %}">{% csrf_token %}
+        <div>Login: <input name="username"/></div>
+        <div>Password: <input name="password" type="password"/></div>
+        <div><input type="submit" value="Submit" name="submit" /></div>
+    </form>
+    </ul>
+  </body>
+</html>

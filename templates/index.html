@@ -4,14 +4,30 @@
 	</head>
 	<body>
 		<h3>42 Coffee Cups Test Assignment</h3>
-		<p>Name: {{ person.name }}</p>
-		<p>Last name: {{ person.surname }}</p>
-		<p>Date of bith: {{ person.date }}</p>
-		<p>Bio: {{ person.bio }}</p>
-		<p>Contacts: {{ person.contacts }}</p>
+		<div style="height:550px;">
+			<div style="float:left;">
+				<p>Name: {{ person.name }}</p>
+				<p>Last name: {{ person.surname }}</p>
+				<p>Date of bith: {{ person.date }}</p>
+				<p>Photo:</p>
+				<p><img src="{{ person.photo.url }}" width="200"></p>
+			</div>
+			<div style="float:right; width:65%">
+				<p>Contacts</p>
+				{% if person.email %}<p>Email: {{ person.email }}</p>{% endif %}
+				{% if person.skype %}<p>Skype: {{ person.skype }}</p>{% endif %}
+				{% if person.jabber %}<p>Jabber: {{ person.jabber }}</p>{% endif %}
+				<p>Bio: {{ person.bio }}</p>
+				<p>Other Contacts: {{ person.contacts }}</p>
+			</div>
+		</div>
+
 		<hr />
 		<a href="{% url 'first-requests' %}">requests</a>
 		<hr />	
 		Checking context_processor: LANGUAGE_CODE - {{ settings.LANGUAGE_CODE }}	
+		<hr />
+		<a href="{% url 'edit-profile' %}">Edit profile</a>
+		<hr />	
 	</body>
 </html>

@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>42 Coffee Cups Test Assignment</title>
+	</head>
+	<body>
+		<h3>42 Coffee Cups Test Assignment</h3>
+		{{ form.non_field_errors }}
+		<form method="POST" enctype="multipart/form-data" >{% csrf_token %}
+		<div style="height:600px;">
+			<div style="float:left;">
+				<div>{{ form.name.errors }}</div>
+				<p>Name: {{ form.name }}</p>
+				<div>{{ form.surname.errors }}</div>
+				<p>Last name: {{ form.surname }}</p>
+				<div>{{ form.date.errors }}</div>
+				<p>Date of bith: {{ form.date }}</p>
+				<div>{{ form.photo.errors }}</div>
+				<p>Photo:{{ form.photo }}</p>
+				<div>{{ form.bio.errors }}</div>
+				<p>Bio: {{ form.bio }}</p>
+			</div>
+			<div style="float:right; width:55%">
+				<p>Contacts</p>
+				<div>{{ form.email.errors }}</div>
+				<p>Email: {{ form.email }}</p>
+				<div>{{ form.skype.errors }}</div>
+				<p>Skype: {{ form.skype }}</p>
+				<div>{{ form.jabber.errors }}</div>
+				<p>Jabber: {{ form.jabber }}</p>
+				<div>{{ form.contacts.errors }}</div>				
+				<p>Other Contacts: {{ form.contacts }}</p>
+			</div>
+		</div>
+		<input type="submit" value="Save" />
+		</form>
+	</body>
+</html>
