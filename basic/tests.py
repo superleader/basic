@@ -9,7 +9,7 @@ from datetime import date
 import sys
 import os
 
-from basic.models import Person, Location
+from basic.models import Person, Location, Log
 
 
 class BasicTest(TestCase):
@@ -129,3 +129,23 @@ class BasicTest(TestCase):
 		self.failUnlessEqual(
 			os.path.exists('./%s.dat' % date.today().strftime("%Y-%m-%d")), True)
 		os.remove(file)
+		
+	def test_signals(self):
+		count = Log.objects.count()
+		
+		l = Location(name='/')
+		l.save()
+		log_count = Log.objects.count()
+		self.failUnlessEqual(Log.objects.all()[log_count - 1].action, 'create')
+		self.failUnlessEqual(count + 1, log_count)
+		
+		l.name = ""
+		l.save()
+		log_count = Log.objects.count()
+		self.failUnlessEqual(Log.objects.all()[log_count - 1].action, 'update')
+		self.failUnlessEqual(count + 2, log_count)
+		
+		l.delete()
+		log_count = Log.objects.count()
+		self.failUnlessEqual(count + 3, log_count)
+		self.failUnlessEqual(Log.objects.all()[log_count - 1].action, 'delete')
