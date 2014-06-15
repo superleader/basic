@@ -1,9 +1,11 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, DateField
 
+from basic.widgets import CalendarWidget
 from basic.models import Person
 
 
 class PersonForm(ModelForm):
-
-    class Meta:
-        model = Person
+	date = DateField(widget=CalendarWidget)
+	
+	class Meta:
+	    model = Person

@@ -1,7 +1,9 @@
-from annoying.decorators import render_to
+from annoying.decorators import render_to, ajax_request
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
+from basic.widgets import CalendarWidget
 from basic.models import Person, Location
 from basic.forms import PersonForm
 
@@ -21,15 +23,20 @@ def requests(request):
 @login_required
 @render_to('edit.html')
 def edit(request):
-	if request.method == 'POST':
-		form = PersonForm(request.POST, request.FILES, instance=Person.objects.get(pk=1))
-		if form.is_valid():
-			form.save()
-			return redirect('home')
-		else:
-			print form.errors
-	else:
-		form = PersonForm(instance=Person.objects.get(pk=1))
-		
-	
+	form = PersonForm(instance=Person.objects.get(pk=1))	
+	calendar = CalendarWidget()
 	return locals()
+	
+
+@login_required
+@require_POST
+@ajax_request
+def save(request):
+	form = PersonForm(request.POST, request.FILES, instance=Person.objects.get(pk=1))
+	if form.is_valid():
+		form.save()
+		return {'result': 1}
+	else:
+		return {'result': 0, 'errors': form.errors}
+	
+	

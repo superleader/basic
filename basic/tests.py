@@ -15,8 +15,6 @@ class BasicTest(TestCase):
 		self.client = Client()
 		self.user = User.objects.create_user(self.username, 'tt@tt.com', \
 		                                     self.password)
-		#self.user.is_staff = True
-		#self.user.save()
     
 	def login(self):
 		login = self.client.login(username=self.username, \
@@ -55,7 +53,16 @@ class BasicTest(TestCase):
 		self.failUnlessEqual(response.status_code, 200)
 		self.assertContains(response, settings.LANGUAGE_CODE)
 
-	def test_edit(self):
+	def test_edit(self):		
+		# redirect to login-page
+		response = self.client.get(reverse('edit-profile'))
+		self.failUnlessEqual(response.status_code, 302)
+		
+		self.login()
+		response = self.client.get(reverse('edit-profile'))
+		self.failUnlessEqual(response.status_code, 200)
+	
+	def test_save(self):
 		data = {
 		    'name': 'test_name',
 		    'surname': 'test_surname',
@@ -66,21 +73,19 @@ class BasicTest(TestCase):
 		    'contacts': 'test_contacts',
 		    'date': '2010-10-10',
 		}
-		
-		response = self.client.get(reverse('edit-profile'))
-		self.failUnlessEqual(response.status_code, 302)
-		
-		response = self.client.post(reverse('edit-profile'), data)
-		# redirect to login-page
+	
+		response = self.client.post(reverse('save-profile'), data)
+		#redirect to login page
 		self.failUnlessEqual(response.status_code, 302)
 		
 		self.login()
-		response = self.client.get(reverse('edit-profile'))
+		response = self.client.get(reverse('save-profile'), data)
+		# doeant supprt GET method
+		self.failUnlessEqual(response.status_code, 405)
+		
+		response = self.client.post(reverse('save-profile'), data)
 		self.failUnlessEqual(response.status_code, 200)
-
-		response = self.client.post(reverse('edit-profile'), data)
-		# redirect to home-page
-		self.failUnlessEqual(response.status_code, 302)
+		self.failUnlessEqual(response.content, '{"result": 1}')
 		p = Person.objects.get(pk=1)
 		self.failUnlessEqual(data['name'], p.name)
 		self.failUnlessEqual(data['surname'], p.surname)
@@ -89,8 +94,5 @@ class BasicTest(TestCase):
 		self.failUnlessEqual(data['email'], p.email)
 		self.failUnlessEqual(data['jabber'], p.jabber)
 		self.failUnlessEqual(data['date'], str(p.date))
-		self.failUnlessEqual(data['contacts'], p.contacts)
-
-
-		
+		self.failUnlessEqual(data['contacts'], p.contacts)		
 		
