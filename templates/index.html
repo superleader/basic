@@ -1,3 +1,4 @@
+
 <html>
 	<head>
 		<title>42 Coffee Cups Test Assignment</title>
@@ -29,5 +30,7 @@
 		<hr />
 		<a href="{% url 'edit-profile' %}">Edit profile</a>
 		<hr />	
+		{% load basic_urls %}
+		<a href="{% edit_link person %}">Edit profile in admin</a>
 	</body>
 </html>
