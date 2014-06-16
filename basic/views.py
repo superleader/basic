@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 
 from basic.widgets import CalendarWidget
 from basic.models import Person, Location
-from basic.forms import PersonForm
+from basic.forms import PersonForm, PriorityForm
 
 
 @render_to('index.html')
@@ -16,7 +16,9 @@ def index(request):
 	
 @render_to('requests.html')
 def requests(request):
-	locations = Location.objects.all()[:10]
+	priority = request.GET.get('priority', 0)
+	form = PriorityForm({'priority': priority})
+	locations = Location.objects.filter(priority=priority)[:10]
 	return locals()
 	
 
@@ -32,7 +34,8 @@ def edit(request):
 @require_POST
 @ajax_request
 def save(request):
-	form = PersonForm(request.POST, request.FILES, instance=Person.objects.get(pk=1))
+	form = PersonForm(request.POST, request.FILES,
+			instance=Person.objects.get(pk=1))
 	if form.is_valid():
 		form.save()
 		return {'result': 1}

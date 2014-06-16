@@ -1,9 +1,22 @@
 <html>
   <head>
     <title>42 Coffee Cups Test Assignment</title>
+    <script type="text/javascript" src="/static/js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.form.js"></script>
+  	<script>
+  		$(function(){
+  			$('#id_priority').change(function(){
+  				$('#priority_form').submit()
+  			})
+  		})
+  	</script>
   </head>
   <body>
-    <h3>First 10 http requests:</div>
+  
+    <h3>First 10 http requests:</h3>    
+    <form id="priority_form">
+    {{ form }}
+    </form>
     <table border="1">
     	<tr><th>#</th><th>URL</th></tr>
     {% for l in locations %}

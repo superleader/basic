@@ -51,7 +51,17 @@ class BasicTest(TestCase):
 	def test_requests(self):
 		response = self.client.get(reverse('first-requests'))
 		self.failUnlessEqual(response.status_code, 200)
-		for i in Location.objects.all()[:10]:
+		for i in Location.objects.filter(priority=0)[:10]:
+			self.assertContains(response, i)
+		
+		response = self.client.get(reverse('first-requests') + '?priority=1')
+		self.failUnlessEqual(response.status_code, 200)
+		for i in Location.objects.filter(priority=1)[:10]:
+			self.assertContains(response, i)
+		
+		response = self.client.get(reverse('first-requests') + '?priority=0')
+		self.failUnlessEqual(response.status_code, 200)
+		for i in Location.objects.filter(priority=0)[:10]:
 			self.assertContains(response, i)
 			
 	def test_context_proccessor(self):

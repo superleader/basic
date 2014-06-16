@@ -21,7 +21,8 @@ class Person(models.Model):
         
 class Location(models.Model):
     name = models.CharField(max_length=255)
-
+    priority = models.PositiveIntegerField(default=0)
+    
     def __unicode__(self):
         return self.name
 
